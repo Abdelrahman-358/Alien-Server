@@ -1,14 +1,14 @@
 package com.example.httpserver.http;
 
 public class HttpParsingException extends  Exception {
-   private final HttpStatusCode httpStatusCode;
+   private final HttpStatus httpStatusCode;
 
-   public HttpParsingException(HttpStatusCode httpStatusCode) {
-       super(httpStatusCode.getMessage());
+   public HttpParsingException(HttpStatus httpStatusCode) {
+       super(httpStatusCode.getReasonPhrase());
        this.httpStatusCode = httpStatusCode;
    }
 
-   public HttpStatusCode getHttpStatusCode() {
+   public HttpStatus getHttpStatus() {
        return httpStatusCode;
    }
 

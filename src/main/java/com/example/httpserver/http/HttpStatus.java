@@ -1,7 +1,7 @@
 package com.example.httpserver.http;
 
-public enum HttpStatusCode {
-    // Client Errors
+public enum HttpStatus {
+    // Client
     CLIENT_ERROR_400_BAD_REQUEST(400, "Bad Request"),
     CLIENT_ERROR_404_NOT_FOUND(404, "Not Found"),
     CLIENT_ERROR_405_METHOD_NOT_ALLOWED(405, "Method Not Allowed"),
@@ -10,21 +10,23 @@ public enum HttpStatusCode {
 
     // Server Errors
     INTERNAL_SERVER_ERROR_500(414, "Internal Server Error"),
-    INTERNAL_SERVER_ERROR_501_NOT_IMPLEMENTED(501, "Not Implemented");
+    INTERNAL_SERVER_ERROR_501_NOT_IMPLEMENTED(501, "Not Implemented"),
 
 
-    private final int STATUS_CODE;
-    private final String MESSAGE;
-    HttpStatusCode(int statusCode, String message) {
-        this.STATUS_CODE = statusCode;
-        this.MESSAGE = message;
+    SUCCESS_200_OK(200, "OK");
+
+    private final int statusCode;
+    private final String reasonPhrase;
+    HttpStatus(int statusCode, String reasonPhrase) {
+        this.statusCode = statusCode;
+        this.reasonPhrase = reasonPhrase;
     }
 
     public int getStatusCode() {
-        return STATUS_CODE;
+        return statusCode;
     }
 
-    public String getMessage() {
-        return MESSAGE;
+    public String getReasonPhrase() {
+        return reasonPhrase;
     }
 }

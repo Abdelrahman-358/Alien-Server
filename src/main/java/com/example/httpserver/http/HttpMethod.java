@@ -1,7 +1,7 @@
 package com.example.httpserver.http;
 
 public enum HttpMethod {
-    GET, HEAD, SET;
+    GET, HEAD, SET,POST;
     public  static  int MAX_LENGTH ;
     static {
         MAX_LENGTH = -1;

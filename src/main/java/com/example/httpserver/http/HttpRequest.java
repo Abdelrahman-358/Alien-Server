@@ -23,7 +23,7 @@ public class HttpRequest {
                 return;
             }
         }
-        throw new HttpParsingException(HttpStatusCode.INTERNAL_SERVER_ERROR_501_NOT_IMPLEMENTED);
+        throw new HttpParsingException(HttpStatus.INTERNAL_SERVER_ERROR_501_NOT_IMPLEMENTED);
     }
 
     public String getTarget() {
