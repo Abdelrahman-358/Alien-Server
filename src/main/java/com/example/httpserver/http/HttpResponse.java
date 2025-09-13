@@ -1,50 +1,20 @@
 package com.example.httpserver.http;
 
-import java.io.IOException;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class HttpResponse {
+    private final HttpVersion httpVersion;
+    private final HttpStatus status;
+    private final HashMap<String, List<String>> headers;
+    private final String body;
 
-    // Start-line
-    private HttpVersion httpVersion;
-    private HttpStatus status;
-
-    // Header
-    private HashMap<String, List<String>> headers;
-
-    // Body
-    private String body;
-
-    public HttpResponse() {
-        this.httpVersion = HttpVersion.HTTP_1_1;
-        this.status = HttpStatus.SUCCESS_200_OK;
-        this.headers = new HashMap<>();
-        this.body = "";
-    }
-
-    public HttpResponse(HttpVersion httpVersion, HttpStatus statusCode,String body) {
-        this.httpVersion = httpVersion;
-        this.status= statusCode;
-        this.headers = new HashMap<>();
-    }
-    public void  setHttpVersion(HttpVersion httpVersion) {
-        this.httpVersion = httpVersion;
-    }
-    public void setStatusCode(HttpStatus status) {
-        this.status = status;
-    }
-
-
-    public void addHeader(String name, String value) {
-       this.headers.computeIfAbsent(name, k -> new ArrayList<>()).add(value);
-    }
-
-    public void setBody(String body) {
-        this.body = body;
+    private HttpResponse(Builder builder) {
+        this.httpVersion = builder.httpVersion;
+        this.status = builder.status;
+        this.headers = builder.headers;
+        this.body = builder.body;
     }
 
     public HttpVersion getHttpVersion() {
@@ -56,15 +26,55 @@ public class HttpResponse {
     }
 
     public HashMap<String, List<String>> getHeaders() {
-        return headers;
+        return new HashMap<>(headers);
     }
-
 
     public String getBody() {
         return body;
     }
+
     @Override
     public String toString() {
         return "HttpResponse [httpVersion=" + httpVersion + ", status=" + status + ", headers=" + headers + ", body=" + body + "]";
     }
+
+    // Builder class
+    public static class Builder {
+        private final HttpStatus status;
+        
+        private HttpVersion httpVersion = HttpVersion.HTTP_1_1;
+        private final HashMap<String, List<String>> headers = new HashMap<>();
+        private String body = "";
+
+        public Builder(HttpStatus status) {
+            this.status = status;
+        }
+
+        public Builder withHttpVersion(HttpVersion httpVersion) {
+            this.httpVersion = httpVersion;
+            return this;
+        }
+
+        public Builder withHeader(String name, String value) {
+            this.headers.computeIfAbsent(name, k -> new ArrayList<>()).add(value);
+            return this;
+        }
+
+        public Builder withHeaders(HashMap<String, String> headers) {
+            headers.forEach((key, value) -> 
+                this.headers.computeIfAbsent(key, k -> new ArrayList<>()).add(value)
+            );
+            return this;
+        }
+
+        public Builder withBody(String body) {
+            this.body = body != null ? body : "";
+            return this;
+        }
+
+        public HttpResponse build() {
+            return new HttpResponse(this);
+        }
+    }
 }
+

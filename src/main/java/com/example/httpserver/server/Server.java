@@ -13,7 +13,12 @@ public class Server {
 
     public static void start() throws Exception {
 
-        ExecutorService threadPool = Executors.newFixedThreadPool(20);
+        int threadCount = Integer.parseInt(
+                System.getProperty("server.threads",
+                        String.valueOf(Runtime.getRuntime().availableProcessors() * 2)
+                )
+        );
+        ExecutorService threadPool = Executors.newFixedThreadPool(threadCount);
         
         try (ServerSocket serverSocket = new ServerSocket(4221)) {
             logger.info("Alien Server started on port 4221");
